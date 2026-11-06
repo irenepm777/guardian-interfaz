@@ -4,6 +4,8 @@
  */
 
 const contenedor = document.getElementById("contenedor-bienvenida");
+const inputColor = document.getElementById("color");
+const selectTema = document.getElementById("tema");
 
 /**
  * Crea el bloque de bienvenida (H2 + párrafo) y lo inyecta en el contenedor
@@ -24,5 +26,28 @@ function mostrarBienvenida(nombre) {
   contenedor.appendChild(bloque);
 }
 
-// TEMPORAL (Fase 1): en la Fase 3 se sustituye por la lectura de la cookie
+/**
+ * Aplica un color de fondo a la página.
+ * @param {string} color - color en formato hexadecimal (o "" para quitarlo)
+ */
+function aplicarColor(color) {
+  document.body.style.backgroundColor = color;
+}
+
+/**
+ * Activa o desactiva la clase CSS del tema oscuro en el body
+ * @param {string} tema - "claro" u "oscuro"
+ */
+function aplicarTema(tema) {
+  if (tema === "oscuro") {
+    document.body.classList.add("tema-oscuro");
+  } else {
+    document.body.classList.remove("tema-oscuro");
+  }
+}
+
+inputColor.addEventListener("input", () => aplicarColor(inputColor.value));
+selectTema.addEventListener("change", () => aplicarTema(selectTema.value));
+
+// TEMPORAL (Fase 2): en la Fase 3 se sustituye por la lectura de la cookie
 mostrarBienvenida("Usuario");
