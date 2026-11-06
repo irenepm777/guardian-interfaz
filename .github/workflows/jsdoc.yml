@@ -1,0 +1,36 @@
+name: Generar JSDoc
+
+on:
+  push:
+    branches: [main]
+    paths: ["docs/script.js"]
+
+permissions:
+  contents: write
+
+jobs:
+  jsdoc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generar documentación en la carpeta jsdoc
+        run: npx --yes jsdoc docs/script.js -d jsdoc
+
+      - name: Subir cambios si los hay
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add jsdoc/
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: actualización automática de JSDoc"
+            git push
+          else
+            echo "Sin cambios en la documentación."
+          fi
