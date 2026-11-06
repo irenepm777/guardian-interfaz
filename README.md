@@ -17,7 +17,7 @@ Aplicación web de una sola página que permite personalizar el aspecto de la we
 ├── .github/workflows/jsdoc.yml   # Action que genera la documentación
 ├── docs/                         # Web publicada en GitHub Pages
 │   ├── index.html
-│   ├── estilos.css
+│   ├── styles.css
 │   └── script.js
 └── jsdoc/                        # Documentación generada (no se publica)
 ```
