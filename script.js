@@ -4,13 +4,16 @@
  */
 
 const DIAS_CADUCIDAD = 7;
+const COOKIES = ["nombre", "color", "tema"];
 const COLOR_POR_DEFECTO = "#ffffff"; // mismo valor que el input de color en el HTML
 
 const contenedor = document.getElementById("contenedor-bienvenida");
+const formulario = document.getElementById("formulario");
 const inputNombre = document.getElementById("nombre");
 const inputColor = document.getElementById("color");
 const selectTema = document.getElementById("tema");
 const btnGuardar = document.getElementById("btnGuardar");
+const btnRestablecer = document.getElementById("btnRestablecer");
 
 /**
  * Elimina el bloque de bienvenida del DOM si existe
@@ -103,6 +106,14 @@ function leerCookie(nombre) {
 }
 
 /**
+ * Elimina una cookie poniendo su fecha de caducidad en el pasado
+ * @param {string} nombre - nombre de la cookie
+ */
+function borrarCookie(nombre) {
+  document.cookie = `${nombre}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+}
+
+/**
  * Guarda nombre y color (7 días) y tema (sesión) en tres cookies
  */
 function guardarPreferencias() {
@@ -135,8 +146,23 @@ function restaurarPreferencias() {
   }
 }
 
+/**
+ * Borra las cookies y devuelve la página a su aspecto por defecto sin recargar
+ */
+function restablecerInterfaz() {
+  for (const nombre of COOKIES) {
+    borrarCookie(nombre);
+  }
+
+  formulario.reset();
+  aplicarColor("");
+  aplicarTema("claro");
+  borrarBienvenida();
+}
+
 inputColor.addEventListener("input", () => aplicarColor(inputColor.value));
 selectTema.addEventListener("change", () => aplicarTema(selectTema.value));
 btnGuardar.addEventListener("click", guardarPreferencias);
+btnRestablecer.addEventListener("click", restablecerInterfaz);
 
 restaurarPreferencias();
